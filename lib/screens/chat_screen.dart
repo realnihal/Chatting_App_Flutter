@@ -73,33 +73,33 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // StreamBuilder<QuerySnapshot>(
-            //   stream: _firestore.collection('messages').snapshots(),
-            //   builder: (context, snapshot) {
-            //     if (!snapshot.hasData) {
-            //       return Center(
-            //         child: CircularProgressIndicator(),
-            //       );
-            //     }
-            //     if (snapshot.hasData) {
-            //       final messages = snapshot.data.docs;
-            //       List<Text> messageWidgets = [];
+            StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('messages').snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (snapshot.hasData) {
+                  final messages = snapshot.data.docs;
+                  List<Text> messageWidgets = [];
 
-            //       for (var message in messages) {
-            //         final messageText = message.get('text');
-            //         final messageSender = message.get('sender');
+                  for (var message in messages) {
+                    final messageText = message.get('text');
+                    final messageSender = message.get('sender');
 
-            //         final messageWidget =
-            //             Text('$messageText from  $messageSender');
+                    final messageWidget =
+                        Text('$messageText from  $messageSender');
 
-            //         messageWidgets.add(messageWidget);
-            //       }
-            //       return Column(
-            //         children: messageWidgets,
-            //       );
-            //     }
-            //   },
-            // ),
+                    messageWidgets.add(messageWidget);
+                  }
+                  return Column(
+                    children: messageWidgets,
+                  );
+                }
+              },
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
