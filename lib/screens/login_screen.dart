@@ -29,11 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Hero(
-                tag: 'logo',
-                child: Container(
-                  height: 200.0,
-                  child: Image.asset('images/logo.png'),
+              Flexible(
+                child: Hero(
+                  tag: 'logo',
+                  child: Container(
+                    height: 200.0,
+                    child: Image.asset('images/logo.png'),
+                  ),
                 ),
               ),
               SizedBox(
@@ -63,26 +65,30 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 24.0,
               ),
-              RoundedButton(
-                title: 'Login',
-                colour: Colors.lightBlueAccent,
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    final user = await _auth.signInWithEmailAndPassword(
-                        email: email, password: password);
-                    if (user != null) {
-                      Navigator.pushNamed(context, ChatScreen.id);
-                    }
+              Hero(
+                tag: 'login',
+                child: RoundedButton(
+                  title: 'Login',
+                  colour: Colors.lightGreen,
+                  onPressed: () async {
                     setState(() {
-                      showSpinner = false;
+                      showSpinner = true;
                     });
-                  } catch (e) {
-                    print(e);
-                  }
-                },
+                    try {
+                      final user = await _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
+                      if (user != null) {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            ChatScreen.id, (Route<dynamic> route) => false);
+                      }
+                      setState(() {
+                        showSpinner = false;
+                      });
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                ),
               ),
             ],
           ),

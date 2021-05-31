@@ -58,31 +58,45 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   ),
                 ),
                 TypewriterAnimatedTextKit(
-                  text: ['Flash Chat'],
+                  text: ['Lightning'],
                   textStyle: TextStyle(
-                    fontSize: 45.0,
+                    fontSize: 40,
                     fontWeight: FontWeight.w900,
                     color: Colors.grey[700],
                   ),
                 ),
               ],
             ),
+            Container(
+              child: Center(
+                child: Text(
+                  'A Single Global Chatroom',
+                  style: TextStyle(fontSize: 12, color: Colors.black54),
+                ),
+              ),
+            ),
             SizedBox(
               height: 48.0,
             ),
-            RoundedButton(
-              title: 'Log in',
-              colour: Colors.lightBlueAccent,
-              onPressed: () {
-                Navigator.pushNamed(context, LoginScreen.id);
-              },
+            Hero(
+              tag: 'login',
+              child: RoundedButton(
+                title: 'Log in',
+                colour: Colors.lightGreen,
+                onPressed: () {
+                  Navigator.pushNamed(context, LoginScreen.id);
+                },
+              ),
             ),
-            RoundedButton(
-              title: 'Register',
-              colour: Colors.blueAccent,
-              onPressed: () {
-                Navigator.pushNamed(context, RegistrationScreen.id);
-              },
+            Hero(
+              tag: 'register',
+              child: RoundedButton(
+                title: 'Register',
+                colour: Colors.green[700],
+                onPressed: () {
+                  Navigator.pushNamed(context, RegistrationScreen.id);
+                },
+              ),
             )
           ],
         ),

@@ -18,6 +18,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   String email;
   String password;
+  String user_id;
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +32,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Hero(
-                tag: 'logo',
-                child: Container(
-                  height: 200.0,
-                  child: Image.asset('images/logo.png'),
+              Flexible(
+                child: Hero(
+                  tag: 'logo',
+                  child: Container(
+                    height: 200.0,
+                    child: Image.asset('images/logo.png'),
+                  ),
                 ),
               ),
               SizedBox(
@@ -47,8 +50,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 onChanged: (value) {
                   email = value;
                 },
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+                decoration: kTextFieldDecoration.copyWith(
+                    hintText: '<username>@gmail.com'),
               ),
               SizedBox(
                 height: 8.0,
@@ -65,26 +68,33 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               SizedBox(
                 height: 24.0,
               ),
-              RoundedButton(
-                title: 'Register',
-                colour: Colors.blueAccent,
-                onPressed: () async {
-                  setState(() {
-                    showSpinner = true;
-                  });
-                  try {
-                    final newUser = await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                    if (newUser != null) {
-                      Navigator.pushNamed(context, ChatScreen.id);
-                    }
+              Hero(
+                tag: 'register',
+                child: RoundedButton(
+                  title: 'Register',
+                  colour: Colors.green[700],
+                  onPressed: () async {
                     setState(() {
-                      showSpinner = false;
+                      showSpinner = true;
                     });
-                  } catch (e) {
-                    print(e);
-                  }
-                },
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
+                      if (newUser != null) {
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            ChatScreen.id, (Route<dynamic> route) => false);
+                      }
+                      setState(() {
+                        showSpinner = false;
+                      });
+                    } catch (e) {
+                      print(e);
+                    }
+                  },
+                ),
               ),
             ],
           ),
